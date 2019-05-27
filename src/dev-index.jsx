@@ -23,13 +23,13 @@ class TestEditor extends React.Component {
             blocks: [
               { type: 'text' },
               {
-                type: 'text_print',
+                type: 'field_input',
                 values: {
                   TEXT: {
                     type: 'text',
                     shadow: true,
                     fields: {
-                      TEXT: 'abc',
+                      TEXT: 'xyz',
                     },
                   },
                 },

@@ -13,6 +13,8 @@ module.exports = {
 
   extends: [
     "airbnb",
+    "prettier",
+    "prettier/react"
   ],
 
   parser: "babel-eslint",
@@ -23,4 +25,18 @@ module.exports = {
       jsx: true,
     },
   },
+  rules:{
+    "linebreak-style": 0   // <----------
+  },
+  "prettier/prettier":[
+    "error",
+    {
+      "trailingComma": "es6",
+      "singleQuote": true,
+      "printWidth": 120,
+    }
+  ],
+  "plugins":[
+    "prettier"
+  ]
 };
