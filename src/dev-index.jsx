@@ -49,30 +49,90 @@ class TestEditor extends React.Component {
         }
       ]
     })
+
+//Custom Block
+
+    Blockly.Blocks['move_right'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField("turn right");
+        this.appendValueInput("shouldMove")
+            .setCheck("Boolean")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("move?");
+        this.setInputsInline(false);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(330);
+     this.setTooltip("");
+     this.setHelpUrl("");
+      }
+    };
+    
+    Blockly.Blocks['move_left'] = {
+        init: function() {
+          this.appendDummyInput()
+              .appendField("turn left");
+          this.appendValueInput("shouldMove")
+              .setCheck("Boolean")
+              .setAlign(Blockly.ALIGN_RIGHT)
+              .appendField("move?");
+          this.setInputsInline(false);
+          this.setPreviousStatement(true, null);
+          this.setNextStatement(true, null);
+          this.setColour(330);
+       this.setTooltip("");
+       this.setHelpUrl("");
+        }
+      };
+    
+    
+    Blockly.Blocks['forward'] = {
+        init: function() {
+          this.appendDummyInput()
+              .appendField("forward");
+          this.setOutput(true, "Boolean");
+          this.setColour(330);
+       this.setTooltip("");
+       this.setHelpUrl("");
+        }
+      };
+
     window.setTimeout(() => {
       this.setState({
         toolboxCategories: this.state.toolboxCategories.concat([
           {
-            name: 'Text2',
+            name: 'Tank Attribute',
+            colour: 220,
             blocks: [
-              { type: 'text' },
-              {
-                type: 'text_print',
-                values: {
-                  TEXT: {
-                    type: 'text',
-                    shadow: true,
-                    fields: {
-                      TEXT: 'abc',
-                    },
-                  },
-                },
-              },
+              {type: 'move_right'},
+              {type: 'move_left'},
+              {type: 'forward'}
             ],
           },
         ]),
       });
-    }, 2000);
+
+      Blockly.JavaScript['move_right'] = function(block) {
+        var shouldMove = Blockly.JavaScript.valueToCode(block, 'shouldMove', Blockly.JavaScript.ORDER_ATOMIC);
+        x = Boolean(shouldMove);
+        var code = 'goRightBlock(' + x + ');\n';
+        return code;
+      };
+
+      Blockly.JavaScript['move_left'] = function(block) {
+        var shouldMove = Blockly.JavaScript.valueToCode(block, 'shouldMove', Blockly.JavaScript.ORDER_ATOMIC);
+        x = Boolean(shouldMove);
+        var code = 'goLeftBlock(' + x + ');\n';
+        return code;
+      };
+
+      Blockly.JavaScript['forward'] = function(block) {
+        var code = true;
+        return [code, Blockly.JavaScript.ORDER_NONE];
+      };
+
+    }, 20);
   }
 
   workspaceDidChange = (workspace) => {
