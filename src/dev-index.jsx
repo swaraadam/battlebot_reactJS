@@ -98,16 +98,49 @@ class TestEditor extends React.Component {
         }
       };
 
+      Blockly.Blocks['collider_sensor'] = {
+        init: function() {
+          this.appendDummyInput()
+              .setAlign(Blockly.ALIGN_RIGHT)
+              .appendField("is collide with")
+              .appendField(new Blockly.FieldDropdown([["wall","WALL"], ["enemy","ENEMY"], ["obstacle","OBSTACLE"]]), "NAME");
+          this.setOutput(true, null);
+          this.setColour(15);
+       this.setTooltip("");
+       this.setHelpUrl("");
+        }
+      };
+
+      Blockly.Blocks['sight_sensor'] = {
+        init: function() {
+          this.appendDummyInput()
+              .appendField("is tank sight")
+              .appendField(new Blockly.FieldDropdown([["wall","WALL"], ["enemy","ENEMY"], ["obstacle","OBSTACLE"]]), "NAME");
+          this.setOutput(true, null);
+          this.setColour(15);
+       this.setTooltip("");
+       this.setHelpUrl("");
+        }
+      };
+
     window.setTimeout(() => {
       this.setState({
         toolboxCategories: this.state.toolboxCategories.concat([
           {
             name: 'Tank Attribute',
-            colour: 220,
+            colour: 330,
             blocks: [
               {type: 'move_right'},
               {type: 'move_left'},
               {type: 'forward'}
+            ],
+          },
+          {
+            name: 'Tank Sensing',
+            colour: 15,
+            blocks: [
+              {type: 'collider_sensor'},
+              {type: 'sight_sensor'}
             ],
           },
         ]),
@@ -132,6 +165,21 @@ class TestEditor extends React.Component {
         return [code, Blockly.JavaScript.ORDER_NONE];
       };
 
+      Blockly.JavaScript['collider_sensor'] = function(block) {
+        var dropdown_name = block.getFieldValue('NAME');
+        // TODO: Assemble JavaScript into code variable.
+        var code = '...';
+        // TODO: Change ORDER_NONE to the correct strength.
+        return [code, Blockly.JavaScript.ORDER_NONE];
+      };
+      
+      Blockly.JavaScript['sight_sensor'] = function(block) {
+        var dropdown_name = block.getFieldValue('NAME');
+        // TODO: Assemble JavaScript into code variable.
+        var code = '...';
+        // TODO: Change ORDER_NONE to the correct strength.
+        return [code, Blockly.JavaScript.ORDER_NONE];
+      };
     }, 20);
   }
 
