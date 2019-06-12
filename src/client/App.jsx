@@ -1,9 +1,25 @@
 import React, { Component } from "react";
-import Game from "./Game";
-import Blockly from "./dev-index";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react'
-import { store, persistor } from "./store/configureStore";
+import Fab from '@material-ui/core/Fab'
+import AppBar from '@material-ui/core/AppBar'
+import IconButton from '@material-ui/core/IconButton'
+import CodeIcon from '@material-ui/icons/Code'
+import ZoomInIcon from '@material-ui/icons/ZoomIn'
+import ZoomOutIcon from '@material-ui/icons/ZoomOut'
+
+import Toolbar from '@material-ui/core/Toolbar'
+import clsx from 'clsx'
+import Drawer from '@material-ui/core/Drawer'
+import CssBaseLine from '@material-ui/core/CssBaseline'
+import {withStyles} from '@material-ui/core/CssBaseline'
+import ChefronLeftIcon from '@material-ui/icons/ChevronLeft'
+import ChefronRightIcon from '@material-ui/icons/ChevronRight'
+
+import Blockly from "./dev-index";
+import consfigureStore from "./store/configureStore";
+import TankManager from './TankManager'
+import Game from "./Game";
 
 class App extends Component {
     render() {
