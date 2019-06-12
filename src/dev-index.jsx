@@ -9,6 +9,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Game from './Game';
+import { connect } from "react-redux";
+import {store} from './store/configureStore'
+import { BUILD_GAME } from "./store/gameReducer";
 
 const styles = theme => ({
   button: {
@@ -20,7 +23,7 @@ const styles = theme => ({
 });
 
 
-class TestEditor extends React.Component {
+class BlocklyPart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,19 +33,23 @@ class TestEditor extends React.Component {
     };
   }
 
+  createFile=()=>{
+
+  }
+
   componentDidMount = () => {
     this.setState({
       gameObjects:[
         {
           name:"Tank 1",
-          sprite: "../public/assets/hero.gif",
+          // sprite: require("../public/assets/tank1.png"),
           workspace: "",
           jsCode: "",
           key:"0"
         },
         {
           name:"Tank 2",
-          sprite: "../public/assets/ghost.png",
+          // sprite: require("../public/assets/tank2.png"),
           workspace: "",
           jsCode: "",
           key:"1"
@@ -50,6 +57,9 @@ class TestEditor extends React.Component {
       ]
     })
 
+    if (store.getState().gameObjects.length) {
+      this.setState({gameObjects: store.getState().gameObjects})
+    }
 //Custom Block
 
     Blockly.Blocks['move_right'] = {
@@ -122,6 +132,45 @@ class TestEditor extends React.Component {
        this.setHelpUrl("");
         }
       };
+/////////////////////////
+      Blockly.Blocks['motion_foward'] = {
+        init: function() {
+          this.appendValueInput("DISTANCE")
+              .setCheck("Number")
+              .appendField("foward");
+          this.setPreviousStatement(true);
+          this.setNextStatement(true);
+          this.setColour(150);
+          this.setTooltip('');
+          this.setHelpUrl('http://www.example.com/');
+        }
+      };
+  
+      Blockly.Blocks['motion_turn_right'] = {
+        init: function() {
+          this.appendValueInput("DEGREES")
+              .setCheck("Number")
+              .appendField("turn right");
+          this.setPreviousStatement(true);
+          this.setNextStatement(true);
+          this.setColour(150);
+          this.setTooltip('');
+          this.setHelpUrl('http://www.example.com/');
+        }
+      };
+  
+      Blockly.Blocks['motion_turn_left'] = {
+        init: function() {
+          this.appendValueInput("DEGREES")
+              .setCheck("Number")
+              .appendField("turn left");
+          this.setPreviousStatement(true);
+          this.setNextStatement(true);
+          this.setColour(150);
+          this.setTooltip('');
+          this.setHelpUrl('http://www.example.com/');
+        }
+      };
 
     window.setTimeout(() => {
       this.setState({
@@ -141,6 +190,15 @@ class TestEditor extends React.Component {
             blocks: [
               {type: 'collider_sensor'},
               {type: 'sight_sensor'}
+            ],
+          },
+          {
+            name: 'Motion Tank',
+            colour: 150,
+            blocks: [
+              { type: 'motion_foward' },
+              { type: 'motion_turn_right'},
+              { type: 'motion_turn_left' },
             ],
           },
         ]),
@@ -180,6 +238,34 @@ class TestEditor extends React.Component {
         // TODO: Change ORDER_NONE to the correct strength.
         return [code, Blockly.JavaScript.ORDER_NONE];
       };
+
+////////////////////////////////////////
+      Blockly.JavaScript['motion_foward'] = function(block) {
+        var value_distance = Blockly.JavaScript.valueToCode(block, 'DISTANCE', Blockly.JavaScript.ORDER_ATOMIC);
+        // TODO: Assemble JavaScript into code variable.
+        var argument0 = Blockly.JavaScript.valueToCode(block, 'DISTANCE',
+          Blockly.JavaScript.ORDER_NONE) || '\'\'';
+        var code = 'foward('+argument0+');\n';
+        return code;
+      };
+      Blockly.JavaScript['motion_turn_right'] = function(block) {
+        var value_distance = Blockly.JavaScript.valueToCode(block, 'DEGREES', Blockly.JavaScript.ORDER_ATOMIC);
+        // TODO: Assemble JavaScript into code variable.
+        var argument0 = Blockly.JavaScript.valueToCode(block, 'DEGREES',
+          Blockly.JavaScript.ORDER_NONE) || '\'\'';
+        var code = 'turn_right('+argument0+');\n';
+        return code;
+      };
+
+      Blockly.JavaScript['motion_turn_left'] = function(block) {
+        var value_distance = Blockly.JavaScript.valueToCode(block, 'DEGREES', Blockly.JavaScript.ORDER_ATOMIC);
+        // TODO: Assemble JavaScript into code variable.
+        var argument0 = Blockly.JavaScript.valueToCode(block, 'DEGREES',
+          Blockly.JavaScript.ORDER_NONE) || '\'\'';
+        var code = 'turn_left('+argument0+');\n';
+        return code;
+      };
+
     }, 20);
   }
 
@@ -203,33 +289,42 @@ class TestEditor extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <Button onClick={() => this.setState({ xml: this.state.object1Xml })} variant="contained" color="primary" className={classes.button}>
-          Run JS
-          </Button>
-        <div class="row" >
-          <div class="col-sm-8" style={{ height: 500 }}>
-            <ReactBlocklyComponent.BlocklyEditor
-              toolboxCategories={this.state.toolboxCategories}
-              workspaceConfiguration={{
-                grid: {
-                  spacing: 20,
-                  length: 3,
-                  colour: '#ccc',
-                  snap: true,
-                },
-              }}
-              // initialXml={this.state.object1Xml}
-              wrapperDivClassName="fill-height"
-              workspaceDidChange={this.workspaceDidChange}
-            />
-            <div >
+      <div style={{height: 500}}>
+        <Button onClick={() => {
+          // this.setState({ xml: this.state.object1Xml })
+          this.createFile()
+          store.dispatch({type: BUILD_GAME, gameObjects: this.state.gameObjects})
+        }} 
+          variant="contained" color="primary" 
+          className={classes.button}>Build and Run
+        </Button>
+        <ReactBlocklyComponent.BlocklyEditor
+          toolboxCategories={this.state.toolboxCategories}
+          workspaceConfiguration={{
+            grid: {
+              spacing: 20,
+              length: 3,
+              colour: '#ccc',
+              snap: true,
+            },
+          }}
+          // initialXml={this.state.object1Xml}
+          initialXml={store.getState().gameObjects.length ? 
+            store.getState().gameObjects[this.state.slectedGameobjectIndex].workspace :
+            null
+          }
 
-            </div>
-            {this.state.gameObjects.map((gameObject) => {
-              return(
-                <Button onClick={() => {
-                  this.setState({slectedGameobjectIndex: gameObject.key })
+          wrapperDivClassName="fill-height"
+          workspaceDidChange={this.workspaceDidChange}
+        />
+        <div style={{ borderWidth: 3, borderColor: "black", width: 80, height: 65, backgroundColor: "cyan", margin: 10 }}>
+          {this.state.gameObjects.map((gameObject) => {
+            // const thumbnail = require('./public/assets/ghost.png');
+            return (
+              <img
+                src={gameObject.sprite}
+                onClick={() => {
+                  this.setState({ slectedGameobjectIndex: gameObject.key })
                   console.log(this.state.slectedGameobjectIndex)
                   Blockly.mainWorkspace.clear();
                   if (gameObject.workspace !== '') {
@@ -237,20 +332,19 @@ class TestEditor extends React.Component {
                     var xml = Blockly.Xml.textToDom(gameObject.workspace);
                     Blockly.Xml.domToWorkspace(xml, Blockly.mainWorkspace);
                   }
-                }} variant="contained" color="secondary" className={classes.button}>
-                  {gameObject.name}
-          </Button>
-              )
-            })}
-          </div>
-          <div class="col-sm-4"><Game gameObjects={this.state.gameObjects}/></div>
+                }}
+                style={{ width: 100, height: 100, margin: 5, backgroundColor: gameObject.key == this.state.slectedGameobjectIndex ? "yellow" : "white", borderWidth: 3, borderRadius: 20 }}
+                alt={gameObject.name} />
+            )
+          })}
         </div>
       </div>
     )
   }
 }
 
-window.addEventListener('load', () => {
-  const editor = React.createElement(withStyles(styles)(TestEditor));
-  ReactDOM.render(editor, document.getElementById('blockly'));
+const mapStateToProps = ({ showUi }) => ({
+  showUi
 });
+
+export default connect(mapStateToProps)(withStyles(styles)(BlocklyPart))

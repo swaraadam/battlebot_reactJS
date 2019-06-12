@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    './src/dev-index.jsx'
+    './src/app.jsx'
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -18,7 +18,10 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader'
-      }
+      },
+      {
+        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        loader: 'url-loader?limit=100000' }
     ]
   },
   plugins: [
