@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    './src/app.jsx'
+    './src/client/app.jsx'
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -35,6 +35,11 @@ module.exports = {
   },
   devServer: {
     contentBase: './public',
-    filename: 'react-blockly-component.js'
+    filename: 'react-blockly-component.js',
+    port: 3000,
+    open: true,
+    proxy: {
+      '/api': 'http://localhost:8080',
+    },
   }
 };

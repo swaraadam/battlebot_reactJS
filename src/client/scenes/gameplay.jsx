@@ -43,15 +43,15 @@ export default class GameplayScene extends Phaser.Scene{
 
         textInfo = this.add.text(10,10,'',{font: '16px Courier', fill: '#00ff00'})
 
-        //tank
-        player = this.physics.add.sprite(200,150,'tank').setOrigin(0.5,0.5)
-        player.setDamping(true)
-        player.setDrag(0.1)
-        player.setMaxVelocity(200)
-        player.setCollideWorldBounds(true);
+        // //tank
+        // player = this.physics.add.sprite(200,150,'tank').setOrigin(0.5,0.5)
+        // player.setDamping(true)
+        // player.setDrag(0.1)
+        // player.setMaxVelocity(200)
+        // player.setCollideWorldBounds(true);
 
-        //turret
-        turret = this.add.sprite(200,150,'turret').setOrigin(0.3,0.5)
+        // //turret
+        // turret = this.add.sprite(200,150,'turret').setOrigin(0.3,0.5)
 
         ///Test under here
         this.Tank1 = new Tank1({
@@ -74,17 +74,18 @@ export default class GameplayScene extends Phaser.Scene{
     }
 
     update(){
-        turret.x = player.x
-        turret.y = player.y
 
-        textInfo.setText('tank Y : '+parseInt(player.y) +' tank X : '+parseInt(player.x)+'\n'
-        +'tank angle : '+ parseInt(player.angle)+'\n'+'turret angle : '+parseInt(turret.angle))
+        // turret.x = player.x
+        // turret.y = player.y
 
-        if(this.input.keyboard.createCursorKeys().up.isDown){
-            this.physics.velocityFromAngle(player.angle, 200, player.body.acceleration)
-        }else{
-            this.physics.velocityFromAngle(player.angle, 0, player.body.acceleration)
-        }
+        // textInfo.setText('tank Y : '+parseInt(player.y) +' tank X : '+parseInt(player.x)+'\n'
+        // +'tank angle : '+ parseInt(player.angle)+'\n'+'turret angle : '+parseInt(turret.angle))
+
+        // if(this.input.keyboard.createCursorKeys().up.isDown){
+        //     this.physics.velocityFromAngle(player.angle, 200, player.body.acceleration)
+        // }else{
+        //     this.physics.velocityFromAngle(player.angle, 0, player.body.acceleration)
+        // }
     }
 }
 

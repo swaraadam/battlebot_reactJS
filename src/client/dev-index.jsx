@@ -226,7 +226,7 @@ class BlocklyPart extends React.Component {
       Blockly.JavaScript['collider_sensor'] = function(block) {
         var dropdown_name = block.getFieldValue('NAME');
         // TODO: Assemble JavaScript into code variable.
-        var code = '...';
+        var code = 'is_collided ' + dropdown_name +'()\n';
         // TODO: Change ORDER_NONE to the correct strength.
         return [code, Blockly.JavaScript.ORDER_NONE];
       };
@@ -234,9 +234,9 @@ class BlocklyPart extends React.Component {
       Blockly.JavaScript['sight_sensor'] = function(block) {
         var dropdown_name = block.getFieldValue('NAME');
         // TODO: Assemble JavaScript into code variable.
-        var code = '...';
+        var code = 'is_sight ' + dropdown_name +'()\n';
         // TODO: Change ORDER_NONE to the correct strength.
-        return [code, Blockly.JavaScript.ORDER_NONE];
+        return [code, Blockly.JavaScript.ORDER_ATOMIC];
       };
 
 ////////////////////////////////////////
