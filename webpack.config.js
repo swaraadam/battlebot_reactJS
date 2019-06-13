@@ -25,11 +25,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: './public/index.html',
-      chunks: ['app'],
-    }),
+    // new HtmlWebpackPlugin({
+    //   filename: 'index.html',
+    //   template: './public/index.html',
+    //   chunks: ['app'],
+    // }),
     new webpack.ProvidePlugin({
       React: 'react',
       ReactDOM: 'react-dom',

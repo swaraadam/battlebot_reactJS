@@ -47,3 +47,10 @@ export const updateTankWorkspace = tanks => ({
     type: 'UPDATE_TANK_WORKSPACE',
     tanks,
 })
+
+export const saveTank = tankName => (dispatch) => {
+    const data = localStorage.getItem('persist:root');
+    return axios.post('http://localhost:8080/api/saveTank', { tankName, data }, {}).then((res) => {
+      console.log('aaa');
+    });
+  };
